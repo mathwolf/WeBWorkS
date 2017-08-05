@@ -1,0 +1,110 @@
+## DESCRIPTION
+## College Algebra, work with an exponential equation
+## ENDDESCRIPTION
+
+
+## DBsubject(Algebra)
+## DBchapter()
+## DBsection()
+## Date(07/25/2016)
+## Institution(Community College of Denver, Colorado Community College System)
+## Author(Steven Wray)
+## MO(1)
+## KEYWORDS('college algebra', 'exponential equations')
+
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+"PGstandard.pl",
+"MathObjects.pl",
+"AnswerFormatHelp.pl",
+"PGML.pl",
+"PGcourse.pl",
+"contextArbitraryString.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+
+###########################
+#  Setup
+
+# Parameters
+$u = random(2,10);
+if ($u == 2) {
+  $v = random(3,7)
+}  
+elsif ($u == 3 || $u == 10) {
+  $v = random(3,5);
+}
+else {
+  $v = random(2,3);
+}
+
+# Solution
+
+Context("ArbitraryString");
+
+$ans1 = $u . "^-" . $v . "=1/" . ($u**$v);
+$ans2 = $u . "^(-" . $v . ")=1/" . ($u**$v);
+$ans3 = "1/" . ($u**$v) . "=" . $u . "^-" . $v;
+$ans4 = "1/" . ($u**$v) . "=" . $u . "^(-" . $v . ")";
+$ans5 = $u . "^-" . $v . "=(1/" . ($u**$v) . ")";
+$ans6 = $u . "^(-" . $v . ")=(1/" . ($u**$v) . ")";
+$ans7 = "(1/" . ($u**$v) . ")=" . $u . "^-" . $v;
+$ans8 = "(1/" . ($u**$v) . ")=" . $u . "^(-" . $v . ")";
+
+
+###########################
+#  Main text
+
+BEGIN_PGML
+
+Use the definition of a logarithm to rewrite the following as an exponential equation.
+
+[` \log_{\, {[$u]}} \left( \dfrac{1}{{[$u**$v]}} \right) = -{[$v]} `]  
+
+[_______________]{$ans} 
+[@ AnswerFormatHelp("equation") @]*
+
+END_PGML
+
+# custom answer checker
+ANS( String($ans1) -> cmp( checker => sub{
+    my ($correct, $student, $ansHash) = @_;
+    $s = $student;
+    $s =~ s/ //g;      # compress all blank space
+    my ($correct, $student, $ansHash) = @_;
+    $s = $student;
+    $s =~ s/ //g;      # compress all blank space
+    if (String($s) == String($ans1) ||
+      String($s) == String($ans2) ||
+      String($s) == String($ans3) ||
+      String($s) == String($ans4) ||
+      String($s) == String($ans5) ||
+      String($s) == String($ans6) ||
+      String($s) == String($ans7) ||
+      String($s) == String($ans8)
+    ) {
+      return(1);
+    }
+    else {
+      return(0);
+    }
+} ) );
+
+############################
+#  Solution
+
+#BEGIN_PGML_SOLUTION
+#Solution explanation goes here.
+#END_PGML_SOLUTION
+
+COMMENT('MathObject version. Uses PGML.');
+
+ENDDOCUMENT();

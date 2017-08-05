@@ -1,0 +1,130 @@
+## DESCRIPTION
+## College Algebra, linear equation
+## ENDDESCRIPTION
+
+
+## DBsubject(Algebra)
+## DBchapter()
+## DBsection()
+## Date(07/25/2016)
+## Institution(Community College of Denver, Colorado Community College System)
+## Author(Steven Wray)
+## MO(1)
+## KEYWORDS('college algebra', 'linear equations')
+
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+"PGstandard.pl",
+"MathObjects.pl",
+"AnswerFormatHelp.pl",
+"PGML.pl",
+"PGcourse.pl",
+"contextArbitraryString.pl"
+);
+
+TEXT(beginproblem());
+$showPartialCorrectAnswers = 1;
+
+
+###########################
+#  Setup
+
+$slope = non_zero_random(-15,15);
+$intercept = non_zero_random(-50,50);
+
+# Parameters
+$t = random(10,30);
+$u = $slope * $t + $intercept;
+$v = random(-10,-30);
+$w = $slope * $v + $intercept;
+
+# Solution
+
+Context("ArbitraryString");
+
+if ($intercept > 0) {
+  $ans1 = "y=" . $slope . "x+" . $intercept;
+  $ans2 = "y=" . $slope . "*x+" . $intercept;
+  $ans3 = "y=(" . $slope . ")x+" . $intercept;
+  $ans4 = "y=(" . $slope . ")*x+" . $intercept;
+} 
+else {
+  $ans1 = "y=" . $slope . "x-" . (-1*$intercept);
+  $ans2 = "y=" . $slope . "*x-" . (-1*$intercept);
+  $ans3 = "y=(" . $slope . ")x-" . (-1*$intercept);
+  $ans4 = "y=(" . $slope . ")*x-" . (-1*$intercept);
+  $ans5 = "y=" . $slope . "x+-" . (-1*$intercept);
+  $ans6 = "y=" . $slope . "*x+-" . (-1*$intercept);
+  $ans7 = "y=(" . $slope . ")x+(-" . (-1*$intercept) . ")";
+  $ans8 = "y=(" . $slope . ")*x+(-" . (-1*$intercept) . ")";
+  $ans9 = "y=(" . $slope . ")x+-" . (-1*$intercept);
+  $ans10 = "y=(" . $slope . ")*x+-" . (-1*$intercept);
+}
+
+
+###########################
+#  Main text
+
+BEGIN_PGML
+
+Find the equation of the line passing through the points [` \left( {[$t]}, {[$u]} \right) `] and
+[` \left( {[$v]}, {[$w]} \right) . `]  
+
+Write your equation in slope-intercept form, 
+[` y = mx + b , `]
+and put all fractions in lowest terms.
+
+[_______________]{$ans} 
+[@ AnswerFormatHelp("equation") @]*
+
+END_PGML
+
+ANS( String($ans1) -> cmp( checker => sub{
+    my ($correct, $student, $ansHash) = @_;
+    $s = $student;
+    $s =~ s/ //g;      # compress all blank space
+    if ($intercept > 0) {
+      if (String($s) == String($ans1) ||
+        String($s) == String($ans2)  ||
+        String($s) == String($ans3) ||
+        String($s) == String($ans4) 
+      ) {
+        return(1);
+      }
+      else {
+        return(0);
+      }
+    }
+   else {   # intercept is negative
+     if (String($s) == String($ans1) ||
+        String($s) == String($ans2) ||
+        String($s) == String($ans3) ||
+        String($s) == String($ans4) ||
+        String($s) == String($ans5) ||
+        String($s) == String($ans6) || 
+        String($s) == String($ans7) ||
+        String($s) == String($ans8) 
+      ) {
+        return(1);
+      }
+      else {
+        return(0);
+      }
+    }
+} ) );
+
+############################
+#  Solution
+
+#BEGIN_PGML_SOLUTION
+#Solution explanation goes here.
+#END_PGML_SOLUTION
+
+COMMENT('MathObject version. Uses PGML.');
+
+ENDDOCUMENT();

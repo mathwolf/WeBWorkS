@@ -1,0 +1,90 @@
+## DESCRIPTION
+## Formula answer template
+## ENDDESCRIPTION
+
+## DBsubject(Algebra Openstax)
+## DBchapter(Chapter 2)
+## DBsection(Section 2)
+## Date(07/17/2017)
+## Institution(Community College of Denver, Colorado Community College System)
+## Author(Steven Wray)
+## MO(1)
+## KEYWORDS('linear equation')
+
+
+###########################
+#  Initialization
+
+DOCUMENT();
+
+loadMacros(
+"PGstandard.pl",
+"MathObjects.pl",
+"AnswerFormatHelp.pl",
+"PGML.pl",
+"PGcourse.pl",
+"contextFraction.pl",
+);
+
+TEXT(beginproblem());
+
+$showPartialCorrectAnswers = 1;
+
+
+###########################
+#  Setup
+
+Context("Fraction-NoDecimals");
+
+$a = random(1,9);
+$b = random(2,9);
+$c = random(1,9);
+$d = random(2,9);
+$e = random(1,9);
+
+$sign = random(1,2);   # sign of constant on RHS
+
+
+###########################
+#  Main text
+
+if ($sign == 1) {
+
+$solution = Fraction(-$d*$a - $b*$e, $c*$b);
+
+BEGIN_PGML
+Solve the following equation for [`x`]: 
+
+[``- \dfrac{[$a]}{[$b]} - \dfrac{[$c]}{[$d]}x = \dfrac{[$e]}{[$d]}``]
+
+[` x = `][_______________]{$solution} [@ AnswerFormatHelp("numbers") @]*
+
+
+END_PGML
+
+}
+else {
+
+$solution = Fraction(-$d*$a + $b*$e, $c*$b);
+
+BEGIN_PGML
+Solve the following equation for [`x`]: 
+
+[``- \dfrac{[$a]}{[$b]} - \dfrac{[$c]}{[$d]}x = -\dfrac{[$e]}{[$d]}``]
+
+`x`=[_______________]{$solution} [@ AnswerFormatHelp("numbers") @]*
+
+
+END_PGML
+
+}
+############################
+#  Solution
+
+#BEGIN_PGML_SOLUTION
+#Solution explanation goes here.
+#END_PGML_SOLUTION
+
+COMMENT('MathObject version. Uses PGML.');
+
+ENDDOCUMENT();
